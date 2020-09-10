@@ -14,24 +14,34 @@ const startAction = ({ cards }) => {
 		payload: { cards }
 	};
 };
-const initialState = { started: false, topSlots: [], bottomSlots: [] };
+const initialState = { started: false, slots: new Map(), lastAction: null };
 
 function reducer(state, action) {
 	switch (action.type) {
 		case 'start':
+			const startingSlots = new Map();
+
+			action.payload.cards.forEach((value, i) => {
+				startingSlots.set(`t${i}`, value);
+				startingSlots.set(`b${i}`, null);
+			});
+
 			return {
 				...state,
-				topSlots: action.payload.cards.slice(0),
-				bottomSlots: action.payload.cards.map(() => '')
+				slots: startingSlots
 			};
 		case 'move':
+			const { from, to } = action.payload;
+			const slotsCopy = new Map(state.slots.entries());
+
+			slotsCopy.set(from, state.slots.get(to));
+			slotsCopy.set(to, state.slots.get(from));
+
 			return {
 				...state,
-				topSlots: state.topSlots.map((previousValue, i) => (i === action.payload.from ? '' : previousValue)),
-				bottomSlots: state.bottomSlots.map((previousValue, i) =>
-					i === action.payload.to ? state.topSlots[action.payload.from] : previousValue
-				)
+				slots: slotsCopy
 			};
+
 		default:
 			throw new Error('Action type not recognized. Fix it before users will see that!');
 	}
@@ -58,51 +68,70 @@ function App() {
 		<div className="App">
 			<div className="cardBoard">
 				<div className="row">
-					{state.topSlots.map((slot, i) => (
-						<div
-							draggable={Boolean(slot)}
-							className={slot ? 'card' : 'slot'}
-							key={i}
-							onDragStart={() => {
-								setDraggedCard(i);
-							}}
-							onDragEnter={(event) => {
-								event.preventDefault();
-							}}
-							onDragEnd={() => {
-								setDraggedCard(null);
-							}}
-						>
-							{slot}
-						</div>
-					))}
+					{[...state.slots.entries()]
+						.filter(([key, value]) => key.startsWith('t'))
+						.map(([key, value], i) => (
+							<div
+								data-key={key}
+								draggable={Boolean(value)}
+								className={value ? 'card' : 'slot'}
+								key={key}
+								onDragOver={(event) => {
+									event.preventDefault();
+								}}
+								onDragEnter={(event) => {
+									event.preventDefault();
+								}}
+								onDragLeave={(event) => {
+									event.preventDefault();
+								}}
+								onDragStart={() => {
+									setDraggedCard(key);
+								}}
+								onDragEnd={() => {
+									setDraggedCard(null);
+								}}
+								onDrop={(event) => {
+									// console.log(event.target);
+									dispatch(moveCardAction({ from: draggedCard, to: key }));
+								}}
+							>
+								{value}
+							</div>
+						))}
 				</div>
 				<div className="row">
-					{state.bottomSlots.map((slot, i) => (
-						<div
-							draggable={Boolean(slot)}
-							className={slot ? 'card' : 'slot'}
-							key={i}
-							onDragOver={(event) => {
-								event.preventDefault();
-							}}
-							onDragEnter={(event) => {
-								console.log('enter');
-								event.preventDefault();
-							}}
-							onDragLeave={(event) => {
-								console.log('leave');
-								event.preventDefault();
-							}}
-							onDrop={(event) => {
-								// console.log(event.target);
-								dispatch(moveCardAction({ from: draggedCard, to: i }));
-								console.log('drop?', i);
-							}}
-						>
-							{slot}
-						</div>
-					))}
+					{[...state.slots.entries()]
+						.filter(([key, value]) => key.startsWith('b'))
+						.map(([key, value]) => (
+							<div
+								data-key={key}
+								draggable={Boolean(value)}
+								className={value ? 'card' : 'slot'}
+								key={key}
+								onDragOver={(event) => {
+									event.preventDefault();
+								}}
+								onDragEnter={(event) => {
+									event.preventDefault();
+								}}
+								onDragLeave={(event) => {
+									event.preventDefault();
+								}}
+								onDragStart={() => {
+									setDraggedCard(key);
+								}}
+								onDragEnd={() => {
+									setDraggedCard(null);
+								}}
+								onDrop={(event) => {
+									// console.log(event.target);
+									dispatch(moveCardAction({ from: draggedCard, to: key }));
+								}}
+							>
+								{value}
+							</div>
+						))}
 				</div>
 			</div>
 			<div></div>
