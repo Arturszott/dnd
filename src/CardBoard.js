@@ -3,6 +3,7 @@ import './App.css';
 
 import Card from './Card';
 import { moveCardAction, startAction } from './actions';
+import { isTopSlot, isBottomSlot } from './helpers';
 
 function renderSlotsFromEntries(entries, otherProps) {
 	return entries.map(([key, value]) => <Card key={key} slotKey={key} value={value} {...otherProps} />);
@@ -26,8 +27,8 @@ export default React.memo(function CardBoard({ dispatch, slots, started }) {
 		const allSlotsEntries = [...slots.entries()];
 
 		return {
-			topSlotEntries: allSlotsEntries.filter(([key, value]) => key.startsWith('t')),
-			bottomSlotEntries: allSlotsEntries.filter(([key, value]) => key.startsWith('b'))
+			topSlotEntries: allSlotsEntries.filter(([key, value]) => isTopSlot(key)),
+			bottomSlotEntries: allSlotsEntries.filter(([key, value]) => isBottomSlot(key))
 		};
 	}, [slots]);
 

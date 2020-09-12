@@ -5,8 +5,8 @@ export default React.memo(function Timer({ penalty, started, startedAt }) {
 	const [clock, setClock] = useState(null);
 
 	const passTime = useCallback(() => {
-		setTime(penalty + (Date.now() - startedAt) / 1000);
-	}, [penalty, startedAt]);
+		setTime((Date.now() - startedAt) / 1000);
+	}, [startedAt]);
 
 	useEffect(() => {
 		if (started && !clock) {
@@ -18,5 +18,5 @@ export default React.memo(function Timer({ penalty, started, startedAt }) {
 		};
 	}, [clock, passTime, started]);
 
-	return <span>Your score: {Math.floor(time)} seconds</span>;
+	return <span>Your score: {penalty + Math.floor(time)} seconds</span>;
 });
