@@ -11,9 +11,15 @@ export const startAction = () => {
 	};
 };
 
-export const prepareSlots = ({ cards }) => {
+export const finishAction = () => {
 	return {
-		type: 'prepareSlots',
+		type: 'finish'
+	};
+};
+
+export const refreshAction = ({ cards }) => {
+	return {
+		type: 'refresh',
 		payload: { cards }
 	};
 };

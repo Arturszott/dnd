@@ -1,8 +1,17 @@
 import { isBottomSlot } from './helpers';
 
+export const initialState = {
+	started: false,
+	finished: false,
+	slots: new Map(),
+	startedAt: null,
+	penalty: 0,
+	finalScore: null
+};
+
 export default function reducer(state, action) {
 	switch (action.type) {
-		case 'prepareSlots':
+		case 'refresh':
 			const startingSlots = new Map();
 			const solution = new Map();
 
@@ -15,7 +24,7 @@ export default function reducer(state, action) {
 			});
 
 			return {
-				...state,
+				...initialState,
 				solution,
 				slots: startingSlots
 			};
@@ -24,6 +33,12 @@ export default function reducer(state, action) {
 				...state,
 				startedAt: Date.now(),
 				started: true
+			};
+		case 'finish':
+			return {
+				...state,
+				finalScore: state.penalty + (Date.now() - state.startedAt) / 10,
+				finished: true
 			};
 		case 'move':
 			const { from, to } = action.payload;

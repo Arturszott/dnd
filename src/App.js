@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import './App.css';
 
-import reducer from './reducer';
+import reducer, { initialState } from './reducer';
 import Timer from './Timer';
 import CardBoard from './CardBoard';
-import { prepareSlots } from './actions';
-
-const initialState = { started: false, slots: new Map(), startedAt: null, penalty: 0 };
+import { refreshAction, finishAction } from './actions';
 
 const startingCardsValues = ['z', 'o', 'o', 'v', 'u'];
 
@@ -16,17 +14,30 @@ function App() {
 
 	useEffect(() => {
 		if (name) {
-			dispatch(prepareSlots({ cards: startingCardsValues }));
+			dispatch(refreshAction({ cards: startingCardsValues }));
 		}
 	}, [name]);
 
 	useEffect(() => {
-		// check win after every slots change
-	}, [state]);
+		if (state.started) {
+			const isSolved = [...state.solution.entries()].every(([key, value]) => {
+				return state.slots.get(key) === value;
+			});
+
+			if (isSolved) {
+				dispatch(finishAction());
+			}
+		}
+	}, [state.slots, state.solution, state.started]);
 
 	return (
 		<div className="App">
-			<Timer started={state.started} penalty={state.penalty} startedAt={state.startedAt} />
+			<Timer
+				started={state.started}
+				finished={state.finished}
+				penalty={state.penalty}
+				startedAt={state.startedAt}
+			/>
 			<CardBoard slots={state.slots} dispatch={dispatch} started={state.started} />
 		</div>
 	);
