@@ -1,4 +1,5 @@
 import { isBottomSlot, shuffle } from './helpers';
+import { actionTypes } from './constants';
 
 export const initialState = {
 	started: false,
@@ -11,7 +12,7 @@ export const initialState = {
 
 export default function reducer(state, action) {
 	switch (action.type) {
-		case 'refresh':
+		case actionTypes.REFRESH:
 			const startingSlots = new Map();
 			const solution = new Map();
 
@@ -28,19 +29,19 @@ export default function reducer(state, action) {
 				solution,
 				slots: startingSlots
 			};
-		case 'start':
+		case actionTypes.START:
 			return {
 				...state,
 				startedAt: Date.now(),
 				started: true
 			};
-		case 'finish':
+		case actionTypes.FINISH:
 			return {
 				...state,
-				finalScore: state.penalty + (Date.now() - state.startedAt) / 10,
+				finalScore: Math.floor(state.penalty + (Date.now() - state.startedAt) / 1000),
 				finished: true
 			};
-		case 'move':
+		case actionTypes.MOVE:
 			const { from, to } = action.payload;
 			const slotsCopy = new Map(state.slots.entries());
 

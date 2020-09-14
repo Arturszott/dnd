@@ -20,6 +20,10 @@ export default React.memo(function Timer({ penalty, started, finished, startedAt
 		};
 	}, [clock, passTime, started, finished]);
 
+	useEffect(() => {
+		setTime(0);
+	}, [finished]);
+
 	return (
 		<span className="Timer">
 			<span className="icon" role="img" aria-label="clock">

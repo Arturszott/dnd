@@ -1,25 +1,27 @@
+import { actionTypes } from './constants';
+
 export const moveCardAction = ({ from, to }) => {
 	return {
-		type: 'move',
+		type: actionTypes.MOVE,
 		payload: { from, to }
 	};
 };
 
 export const startAction = () => {
 	return {
-		type: 'start'
+		type: actionTypes.START
 	};
 };
 
 export const finishAction = () => {
 	return {
-		type: 'finish'
+		type: actionTypes.FINISH
 	};
 };
 
 export const refreshAction = ({ cards }) => {
 	return {
-		type: 'refresh',
+		type: actionTypes.REFRESH,
 		payload: { cards }
 	};
 };

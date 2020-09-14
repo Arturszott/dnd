@@ -1,0 +1,12 @@
+.FinishScreen {
+	position: fixed;
+	left: 0;
+	top: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100vw;
+	background: #ffffffd1;
+}
