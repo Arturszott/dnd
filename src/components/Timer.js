@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
+import './Timer.css';
+
 export default React.memo(function Timer({ penalty, started, finished, startedAt }) {
 	const [time, setTime] = useState(0);
 	const [clock, setClock] = useState(null);
@@ -18,5 +20,12 @@ export default React.memo(function Timer({ penalty, started, finished, startedAt
 		};
 	}, [clock, passTime, started, finished]);
 
-	return <span>Your score: {penalty + Math.floor(time)} seconds</span>;
+	return (
+		<span className="Timer">
+			<span className="icon" role="img" aria-label="clock">
+				⏰
+			</span>{' '}
+			Your score: {penalty + Math.floor(time)} seconds
+		</span>
+	);
 });

@@ -1,0 +1,20 @@
+.EnterNameScreen {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.nameInput {
+	width: 300px;
+	border: none;
+	border-bottom: 1px solid #ccc;
+	padding: 20px;
+	margin-bottom: 40px;
+
+	outline: none;
+	text-align: center;
+
+	font-size: 18px;
+}

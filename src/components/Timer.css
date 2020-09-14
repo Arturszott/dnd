@@ -1,0 +1,12 @@
+.Timer {
+	display: flex;
+	align-items: center;
+	padding: 5px;
+	color: #3b0078;
+	font-weight: bold;
+}
+
+.Timer .icon {
+	font-size: 22px;
+	margin-right: 10px;
+}

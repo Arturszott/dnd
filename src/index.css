@@ -1,3 +1,7 @@
+* {
+	box-sizing: border-box;
+}
+
 body {
 	margin: 0;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
@@ -10,29 +14,31 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.slot {
-	padding: 10px;
-	height: 100px;
-	width: 100px;
-	background: lightgray;
+h1 {
+	font-size: 27px;
 }
 
-.card {
+button {
+	width: 130px;
+	border-radius: 20px;
 	padding: 10px;
-	height: 100px;
-	width: 100px;
-	background: pink;
-	color: purple;
+	border: 1px solid #ccc;
+	background: white;
+	box-shadow: 0px 3px 5px #00000021;
+	color: #3b0078;
+	cursor: pointer;
 	font-weight: bold;
-	font-size: 72px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	outline: none;
+	transition: background-color 0.3s ease-out;
+}
+
+button:hover {
+	background-color: #eee;
 }
 
 .cardBoard {
-	height: 100vh;
-	width: 100vw;
+	height: 70vh;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './Card.css';
+
 const preventDefault = (event) => {
 	event.preventDefault();
 };
@@ -9,7 +11,7 @@ export default React.memo(function Card({ value, slotKey, makeMove, onCardDragge
 		<div
 			data-key={slotKey}
 			draggable={Boolean(value)}
-			className={value ? 'card' : 'slot'}
+			className={'slot ' + (value ? 'has-card' : '')}
 			onDragOver={preventDefault}
 			onDragEnter={preventDefault}
 			onDragLeave={preventDefault}

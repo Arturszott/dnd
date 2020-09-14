@@ -1,0 +1,19 @@
+.slot {
+	padding: 10px;
+	height: 140px;
+	width: 140px;
+	background: lightgray;
+}
+
+.has-card {
+	padding: 10px;
+	height: 140px;
+	width: 140px;
+	background: pink;
+	color: purple;
+	font-weight: bold;
+	font-size: 72px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

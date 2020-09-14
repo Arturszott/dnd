@@ -1,45 +1,22 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState } from 'react';
+
+import EnterNameScreen from './EnterNameScreen';
+import PlayScreen from './PlayScreen';
+
 import './App.css';
-
-import reducer, { initialState } from '../reducer';
-import { refreshAction, finishAction } from '../actions';
-
-import Timer from './Timer';
-import CardBoard from './CardBoard';
 
 const startingCardsValues = ['z', 'o', 'o', 'v', 'u'];
 
 function App() {
-	const [state, dispatch] = useReducer(reducer, initialState);
-	const [name, setName] = useState('Artur');
-
-	useEffect(() => {
-		if (name) {
-			dispatch(refreshAction({ cards: startingCardsValues }));
-		}
-	}, [name]);
-
-	useEffect(() => {
-		if (state.started) {
-			const isSolved = [...state.solution.entries()].every(([key, value]) => {
-				return state.slots.get(key) === value;
-			});
-
-			if (isSolved) {
-				dispatch(finishAction());
-			}
-		}
-	}, [state.slots, state.solution, state.started]);
+	const [name, setName] = useState('');
 
 	return (
 		<div className="App">
-			<Timer
-				started={state.started}
-				finished={state.finished}
-				penalty={state.penalty}
-				startedAt={state.startedAt}
-			/>
-			<CardBoard slots={state.slots} dispatch={dispatch} started={state.started} />
+			{name ? (
+				<PlayScreen startingCardsValues={startingCardsValues} name={name} />
+			) : (
+				<EnterNameScreen setName={setName} />
+			)}
 		</div>
 	);
 }
