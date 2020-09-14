@@ -2,8 +2,8 @@ import React, { useState, useMemo } from 'react';
 import './App.css';
 
 import Card from './Card';
-import { moveCardAction, startAction } from './actions';
-import { isTopSlot, isBottomSlot } from './helpers';
+import { moveCardAction, startAction } from '../actions';
+import { isTopSlot, isBottomSlot } from '../helpers';
 
 function renderSlotsFromEntries(entries, otherProps) {
 	return entries.map(([key, value]) => <Card key={key} slotKey={key} value={value} {...otherProps} />);

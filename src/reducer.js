@@ -1,4 +1,4 @@
-import { isBottomSlot } from './helpers';
+import { isBottomSlot, shuffle } from './helpers';
 
 export const initialState = {
 	started: false,
@@ -15,7 +15,7 @@ export default function reducer(state, action) {
 			const startingSlots = new Map();
 			const solution = new Map();
 
-			action.payload.cards.forEach((value, i) => {
+			shuffle(action.payload.cards.slice(0)).forEach((value, i) => {
 				startingSlots.set(`t${i}`, value);
 				startingSlots.set(`b${i}`, null);
 			});

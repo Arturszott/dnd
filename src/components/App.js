@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import './App.css';
 
-import reducer, { initialState } from './reducer';
+import reducer, { initialState } from '../reducer';
+import { refreshAction, finishAction } from '../actions';
+
 import Timer from './Timer';
 import CardBoard from './CardBoard';
-import { refreshAction, finishAction } from './actions';
 
 const startingCardsValues = ['z', 'o', 'o', 'v', 'u'];
 
