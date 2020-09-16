@@ -10,6 +10,7 @@ export default React.memo(function Card({ value, slotKey, makeMove, onCardDragge
 	return (
 		<div
 			data-key={slotKey}
+			data-testid={'slot'}
 			draggable={Boolean(value)}
 			className={'slot ' + (value ? 'has-card' : '')}
 			onDragOver={preventDefault}

@@ -36,7 +36,6 @@ export default React.memo(function CardBoard({ dispatch, slots, started }) {
 		makeMove,
 		onCardDragged
 	};
-
 	const topSlots = renderSlotsFromEntries(topSlotEntries, otherProps);
 	const bottomSlots = renderSlotsFromEntries(bottomSlotEntries, otherProps);
 

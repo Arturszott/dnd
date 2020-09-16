@@ -24,6 +24,7 @@ export default React.memo(function PlayScreen({ startingCardsValues, name }) {
 
 			if (isSolved) {
 				dispatch(finishAction());
+
 				setTimeout(() => {
 					dispatch(refreshAction({ cards: startingCardsValues }));
 				}, 10000);
@@ -33,7 +34,7 @@ export default React.memo(function PlayScreen({ startingCardsValues, name }) {
 
 	return (
 		<div className="PlayScreen">
-			{state.finalScore && <FinishScreen name={name} score={state.finalScore} />}
+			{state.finished && <FinishScreen name={name} score={state.finalScore} />}
 			<div className={'play-area ' + (state.finished ? 'has-finished' : '')}>
 				<div className="top-bar">
 					<h1>Good luck, {name}!</h1>{' '}
@@ -44,7 +45,7 @@ export default React.memo(function PlayScreen({ startingCardsValues, name }) {
 						startedAt={state.startedAt}
 					/>
 				</div>
-				<CardBoard slots={state.slots} dispatch={dispatch} started={state.started} />
+				{state.slots.size && <CardBoard slots={state.slots} dispatch={dispatch} started={state.started} />}
 			</div>
 		</div>
 	);
