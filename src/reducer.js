@@ -16,10 +16,19 @@ export default function reducer(state, action) {
 			const startingSlots = new Map();
 			const solution = new Map();
 
-			shuffle(action.payload.cards.slice(0)).forEach((value, i) => {
+			let shuffledCards = shuffle(action.payload.cards.slice(0));
+
+			if (shuffledCards.length > 1) {
+				while (shuffledCards.join('') === action.payload.cards.join('')) {
+					shuffledCards = shuffle(action.payload.cards.slice(0));
+				}
+			}
+
+			shuffledCards.forEach((value, i) => {
 				startingSlots.set(`t${i}`, value);
 				startingSlots.set(`b${i}`, null);
 			});
+
 			action.payload.cards.forEach((value, i) => {
 				solution.set(`b${i}`, value);
 			});
