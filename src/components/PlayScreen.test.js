@@ -12,6 +12,8 @@ afterEach(() => {
 	jest.useRealTimers();
 });
 
+const getCard = (container, cardValue) => container.querySelectorAll(`[data-value="${cardValue}"]`)[0];
+
 test('renders game screen with two slots for every card and empty score', () => {
 	const { getAllByTestId, getByText } = render(<PlayScreen startingCardsValues={cards} name={'Artur'} />);
 
@@ -23,9 +25,9 @@ test('renders game screen with two slots for every card and empty score', () => 
 });
 
 test('starts the game and timer score when card is dragged', () => {
-	const { getAllByText, getByText } = render(<PlayScreen startingCardsValues={cards} name={'Artur'} />);
+	const { getByText, container } = render(<PlayScreen startingCardsValues={cards} name={'Artur'} />);
 
-	const card = getAllByText('t')[0];
+	const card = getCard(container, 't');
 	const oldDateNow = Date.now;
 
 	act(() => {
@@ -48,12 +50,14 @@ test('starts the game and timer score when card is dragged', () => {
 
 test('adds penalty when card is dragged into wrong spot', () => {
 	const customCards = ['t', 'o'];
-	const { getByText, getAllByTestId } = render(<PlayScreen startingCardsValues={customCards} name={'Artur'} />);
+	const { getByText, getAllByTestId, container } = render(
+		<PlayScreen startingCardsValues={customCards} name={'Artur'} />
+	);
 	const firstSlotWithoutCardIndex = 2;
 
 	act(() => {
 		const slot = getAllByTestId('slot')[firstSlotWithoutCardIndex];
-		const card = getByText('o');
+		const card = getCard(container, 'o');
 
 		fireEvent.dragStart(card);
 
@@ -67,12 +71,14 @@ test('adds penalty when card is dragged into wrong spot', () => {
 
 test('adds no penalty when card is dragged into correct spot', () => {
 	const customCards = ['t', 'o'];
-	const { getByText, getAllByTestId } = render(<PlayScreen startingCardsValues={customCards} name={'Artur'} />);
+	const { getByText, getAllByTestId, container } = render(
+		<PlayScreen startingCardsValues={customCards} name={'Artur'} />
+	);
 	const firstSlotWithoutCardIndex = 2;
 
 	act(() => {
 		const slot = getAllByTestId('slot')[firstSlotWithoutCardIndex];
-		const card = getByText('t');
+		const card = getCard(container, 't');
 
 		fireEvent.dragStart(card);
 
@@ -86,12 +92,14 @@ test('adds no penalty when card is dragged into correct spot', () => {
 
 test('finishes game when all cards are matched to their slots', () => {
 	const customCards = ['t'];
-	const { getByText, getAllByTestId } = render(<PlayScreen startingCardsValues={customCards} name={'Artur'} />);
+	const { getByText, getAllByTestId, container } = render(
+		<PlayScreen startingCardsValues={customCards} name={'Artur'} />
+	);
 	const firstSlotWithoutCardIndex = 1;
 
 	act(() => {
 		const slot = getAllByTestId('slot')[firstSlotWithoutCardIndex];
-		const card = getByText('t');
+		const card = getCard(container, 't');
 
 		fireEvent.dragStart(card);
 
@@ -105,14 +113,14 @@ test('finishes game when all cards are matched to their slots', () => {
 
 test('restarts finished game after 10 seconds', () => {
 	const customCards = ['t'];
-	const { getByText, getAllByTestId, queryByText } = render(
+	const { getAllByTestId, queryByText, container } = render(
 		<PlayScreen startingCardsValues={customCards} name={'Artur'} />
 	);
 	const firstSlotWithoutCardIndex = 1;
 
 	act(() => {
 		const slot = getAllByTestId('slot')[firstSlotWithoutCardIndex];
-		const card = getByText('t');
+		const card = getCard(container, 't');
 
 		fireEvent.dragStart(card);
 
